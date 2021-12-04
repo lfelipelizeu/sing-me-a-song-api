@@ -51,8 +51,22 @@ async function downvoteSong(req, res) {
     }
 }
 
+async function getRandomSong(req, res) {
+    try {
+        const song = await recommendationsService.searchRandomSong();
+
+        if (!song) return res.sendStatus(404);
+
+        return res.status(200).send(song);
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(500);
+    }
+}
+
 export {
     recommendASong,
     upvoteSong,
     downvoteSong,
+    getRandomSong,
 };
