@@ -27,7 +27,7 @@ async function selectSongs(params) {
     if (scoreRange === 'bad') query += ' WHERE score <= 10';
     if (scoreRange === 'good') query += ' WHERE score > 10';
 
-    if (amount) query += ` ORDER BY score ASC LIMIT ${amount}`;
+    if (amount) query += ` ORDER BY score DESC LIMIT ${amount}`;
 
     const result = await connection.query(`${query};`);
     const songs = result.rows;
