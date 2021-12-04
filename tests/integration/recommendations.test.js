@@ -122,3 +122,30 @@ describe('POST /recommendations/:id/downvote', () => {
         expect(status).toEqual(200);
     });
 });
+
+describe('GET /recommendations/top/:amount', () => {
+    it('return 400 for a string amount', async () => {
+        const amount = faker.random.word();
+        const result = await agent.get(`/recommendations/top/${amount}`);
+        const { status } = result;
+        expect(status).toEqual(400);
+    });
+
+    it('return 400 for amount lower than 1', async () => {
+        const result = await agent.get(`/recommendations/top/${0}`);
+        const { status } = result;
+        expect(status).toEqual(400);
+    });
+
+    it('return 400 for a decimal amount', async () => {
+        const result = await agent.get(`/recommendations/top/${5.1}`);
+        const { status } = result;
+        expect(status).toEqual(400);
+    });
+
+    it('return 200 for valid amount', async () => {
+        const result = await agent.get(`/recommendations/top/${5}`);
+        const { status } = result;
+        expect(status).toEqual(200);
+    });
+});
