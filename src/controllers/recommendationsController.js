@@ -18,6 +18,23 @@ async function recommendASong(req, res) {
     }
 }
 
+async function upvoteSong(req, res) {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) return res.sendStatus(400);
+
+    try {
+        const updated = await recommendationsRepository.updateSongScore(id, '+');
+        if (updated.rowCount === 0) return res.sendStatus(404);
+
+        return res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(500);
+    }
+}
+
 export {
     recommendASong,
+    upvoteSong,
 };
