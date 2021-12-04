@@ -24,8 +24,25 @@ async function upvoteSong(req, res) {
     if (Number.isNaN(id)) return res.sendStatus(400);
 
     try {
-        const updated = await recommendationsRepository.updateSongScore(id, '+');
-        if (updated.rowCount === 0) return res.sendStatus(404);
+        const updatedSong = await recommendationsRepository.updateSongScore(id, '+');
+        if (!updatedSong) return res.sendStatus(404);
+
+        return res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(500);
+    }
+}
+
+async function downvoteSong(req, res) {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) return res.sendStatus(400);
+
+    try {
+        const updatedSong = await recommendationsRepository.updateSongScore(id, '-');
+        if (!updatedSong) return res.sendStatus(404);
+        if (updatedSong.score < -5) await recommendationsRepository.deleteSong(id);
 
         return res.sendStatus(200);
     } catch (error) {
@@ -37,4 +54,5 @@ async function upvoteSong(req, res) {
 export {
     recommendASong,
     upvoteSong,
+    downvoteSong,
 };
