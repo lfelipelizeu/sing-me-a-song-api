@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as recommendationsService from '../services/recommendationsService.js';
 import * as recommendationsRepository from '../repositories/recommendationsRepository.js';
 
@@ -64,9 +65,25 @@ async function getRandomSong(req, res) {
     }
 }
 
+async function getTopSongs(req, res) {
+    const amount = Number(req.params.amount);
+
+    if (Number.isNaN(amount) || amount < 1 || amount % 1 !== 0) return res.sendStatus(400);
+
+    try {
+        const topSongs = await recommendationsRepository.selectSongs({ amount });
+
+        return res.status(200).send(topSongs);
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(500);
+    }
+}
+
 export {
     recommendASong,
     upvoteSong,
     downvoteSong,
     getRandomSong,
+    getTopSongs,
 };
