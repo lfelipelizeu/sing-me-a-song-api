@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import '../../src/setup.js';
 import supertest from 'supertest';
 import faker from 'faker';

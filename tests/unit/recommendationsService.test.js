@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import faker from 'faker';
 import * as recommendationsService from '../../src/services/recommendationsService.js';
 import createSong from '../factories/songFactory.js';

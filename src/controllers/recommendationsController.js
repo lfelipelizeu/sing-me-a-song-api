@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as recommendationsService from '../services/recommendationsService.js';
 import * as recommendationsRepository from '../repositories/recommendationsRepository.js';
 
